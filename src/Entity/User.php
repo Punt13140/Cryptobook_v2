@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -29,6 +31,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Wallet::class, orphanRemoval: true)]
+    private Collection $wallets;
+
+    /**
+     * Contient l'état des wallets de l'utilisateur, c'est à dire les cryptomonnaies qu'ils contiennent et leur quantité dans chaque wallet.
+     */
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: CoupleCryptocurrencyNbcoins::class, orphanRemoval: true)]
+    private Collection $stateWallets;
+
+    public function __construct()
+    {
+        $this->roles[] = 'ROLE_USER';
+        $this->wallets = new ArrayCollection();
+        $this->stateWallets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -98,5 +116,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Wallet>
+     */
+    public function getWallets(): Collection
+    {
+        return $this->wallets;
+    }
+
+    public function addWallet(Wallet $wallet): static
+    {
+        if (!$this->wallets->contains($wallet)) {
+            $this->wallets->add($wallet);
+            $wallet->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWallet(Wallet $wallet): static
+    {
+        if ($this->wallets->removeElement($wallet)) {
+            // set the owning side to null (unless already changed)
+            if ($wallet->getOwner() === $this) {
+                $wallet->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CoupleCryptocurrencyNbcoins>
+     */
+    public function getStateWallets(): Collection
+    {
+        return $this->stateWallets;
+    }
+
+    public function addStateWallet(CoupleCryptocurrencyNbcoins $stateWallet): static
+    {
+        if (!$this->stateWallets->contains($stateWallet)) {
+            $this->stateWallets->add($stateWallet);
+            $stateWallet->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStateWallet(CoupleCryptocurrencyNbcoins $stateWallet): static
+    {
+        if ($this->stateWallets->removeElement($stateWallet)) {
+            // set the owning side to null (unless already changed)
+            if ($stateWallet->getOwner() === $this) {
+                $stateWallet->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
