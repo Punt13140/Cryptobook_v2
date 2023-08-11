@@ -1,6 +1,6 @@
 # CryptoBook
 
-Under development. Version 1
+Under development.
 
 Version 1 of this application has been up and running for several months. However, there is still room for improvement (multi-wallet management, position improvement/automation, etc.).
 
