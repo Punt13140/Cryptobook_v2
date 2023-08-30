@@ -15,4 +15,13 @@ class CryptobookController extends AbstractController
             'controller_name' => 'CryptobookController',
         ]);
     }
+
+
+    #[Route('/welcome', name: 'app_welcome')]
+    public function welcome(): Response
+    {
+        return $this->render('cryptobook/index.html.twig', [
+            'controller_name' => 'CryptobookController',
+        ]);
+    }
 }
