@@ -41,6 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: CoupleCryptocurrencyNbcoins::class, orphanRemoval: true)]
     private Collection $stateWallets;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?FiatCurrency $favoriteFiatCurrency = null;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
@@ -183,6 +187,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $stateWallet->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFavoriteFiatCurrency(): ?FiatCurrency
+    {
+        return $this->favoriteFiatCurrency;
+    }
+
+    public function setFavoriteFiatCurrency(?FiatCurrency $favoriteFiatCurrency): static
+    {
+        $this->favoriteFiatCurrency = $favoriteFiatCurrency;
 
         return $this;
     }
