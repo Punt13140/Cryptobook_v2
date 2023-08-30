@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TypeWalletRepository::class)]
 class TypeWallet
 {
+    public static int $HARDWARE = 1;
+    public static int $SOFTWARE = 2;
+    public static int $EXCHANGE = 3;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

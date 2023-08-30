@@ -9,19 +9,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CryptobookController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(): Response
+    public function dashboard(): Response
     {
-        return $this->render('cryptobook/index.html.twig', [
+        return $this->render('cryptobook/dashboard.html.twig', [
             'controller_name' => 'CryptobookController',
         ]);
     }
 
-
     #[Route('/welcome', name: 'app_welcome')]
     public function welcome(): Response
     {
-        return $this->render('cryptobook/index.html.twig', [
-            'controller_name' => 'CryptobookController',
-        ]);
+        return $this->render('cryptobook/welcome.html.twig');
+    }
+
+    #[Route('/', name: 'app_presentation')]
+    public function presentation(): Response
+    {
+        return $this->render('cryptobook/presentation.html.twig');
     }
 }
