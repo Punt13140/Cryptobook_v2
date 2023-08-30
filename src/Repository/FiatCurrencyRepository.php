@@ -21,6 +21,15 @@ class FiatCurrencyRepository extends ServiceEntityRepository
         parent::__construct($registry, FiatCurrency::class);
     }
 
+    public function save(FiatCurrency $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return FiatCurrency[] Returns an array of FiatCurrency objects
 //     */

@@ -25,6 +25,9 @@ class CryptobookController extends AbstractController
     #[Route('/', name: 'app_presentation')]
     public function presentation(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_dashboard');
+        }
         return $this->render('cryptobook/presentation.html.twig');
     }
 }
