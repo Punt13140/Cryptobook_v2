@@ -18,6 +18,9 @@ class SetupType extends AbstractType
             ->add('wallets', LiveCollectionType::class, [
                 'entry_type' => WalletType::class,
             ])
+            ->add('deposits', LiveCollectionType::class, [
+                'entry_type' => DepositType::class,
+            ])
             ->add('favoriteFiatCurrency')
             ->add('submit', SubmitType::class);
     }

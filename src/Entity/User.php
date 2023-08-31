@@ -32,6 +32,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?FiatCurrency $favoriteFiatCurrency = null;
+
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Wallet::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $wallets;
 
@@ -41,11 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: CoupleCryptocurrencyNbcoins::class, orphanRemoval: true)]
     private Collection $stateWallets;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?FiatCurrency $favoriteFiatCurrency = null;
-
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Deposit::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Deposit::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $deposits;
 
     public function __construct()
