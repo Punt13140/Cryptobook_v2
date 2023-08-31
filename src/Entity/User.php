@@ -45,11 +45,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?FiatCurrency $favoriteFiatCurrency = null;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Deposit::class, orphanRemoval: true)]
+    private Collection $deposits;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->wallets = new ArrayCollection();
         $this->stateWallets = new ArrayCollection();
+        $this->deposits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +203,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFavoriteFiatCurrency(?FiatCurrency $favoriteFiatCurrency): static
     {
         $this->favoriteFiatCurrency = $favoriteFiatCurrency;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deposit>
+     */
+    public function getDeposits(): Collection
+    {
+        return $this->deposits;
+    }
+
+    public function addDeposit(Deposit $deposit): static
+    {
+        if (!$this->deposits->contains($deposit)) {
+            $this->deposits->add($deposit);
+            $deposit->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeposit(Deposit $deposit): static
+    {
+        if ($this->deposits->removeElement($deposit)) {
+            // set the owning side to null (unless already changed)
+            if ($deposit->getOwner() === $this) {
+                $deposit->setOwner(null);
+            }
+        }
 
         return $this;
     }

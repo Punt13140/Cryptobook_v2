@@ -38,9 +38,13 @@ class FiatCurrency
     #[ORM\OneToMany(mappedBy: 'favoriteFiatCurrency', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'fiatCurrency', targetEntity: Deposit::class)]
+    private Collection $deposits;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->deposits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,5 +145,35 @@ class FiatCurrency
     public function __toString(): string
     {
         return $this->libelle;
+    }
+
+    /**
+     * @return Collection<int, Deposit>
+     */
+    public function getDeposits(): Collection
+    {
+        return $this->deposits;
+    }
+
+    public function addDeposit(Deposit $deposit): static
+    {
+        if (!$this->deposits->contains($deposit)) {
+            $this->deposits->add($deposit);
+            $deposit->setFiatCurrency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeposit(Deposit $deposit): static
+    {
+        if ($this->deposits->removeElement($deposit)) {
+            // set the owning side to null (unless already changed)
+            if ($deposit->getFiatCurrency() === $this) {
+                $deposit->setFiatCurrency(null);
+            }
+        }
+
+        return $this;
     }
 }

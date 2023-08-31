@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExchangeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExchangeRepository::class)]
@@ -18,6 +20,14 @@ class Exchange
 
     #[ORM\Column(length: 255)]
     private ?string $url = null;
+
+    #[ORM\OneToMany(mappedBy: 'exchange', targetEntity: Deposit::class)]
+    private Collection $deposits;
+
+    public function __construct()
+    {
+        $this->deposits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +54,36 @@ class Exchange
     public function setUrl(string $url): static
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deposit>
+     */
+    public function getDeposits(): Collection
+    {
+        return $this->deposits;
+    }
+
+    public function addDeposit(Deposit $deposit): static
+    {
+        if (!$this->deposits->contains($deposit)) {
+            $this->deposits->add($deposit);
+            $deposit->setExchange($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeposit(Deposit $deposit): static
+    {
+        if ($this->deposits->removeElement($deposit)) {
+            // set the owning side to null (unless already changed)
+            if ($deposit->getExchange() === $this) {
+                $deposit->setExchange(null);
+            }
+        }
 
         return $this;
     }
