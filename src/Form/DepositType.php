@@ -3,8 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Deposit;
+use App\Entity\Exchange;
+use App\Entity\FiatCurrency;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,16 +19,26 @@ class DepositType extends AbstractType
         $builder
             ->add('depositedAt', DateTimeType::class, [
                 'widget' => 'single_text',
-                'html5' => false,
-                'attr' => ['class' => 'js-datetimepicker'],
                 'required' => false,
-                'format' => 'dd/MM/yyyy',
                 'input' => 'datetime_immutable',
+                'label' => false,
             ])
-            ->add('amount')
-            ->add('type')
-            ->add('exchange')
-            ->add('fiatCurrency');
+            ->add('amount', NumberType::class, [
+                'label' => false,
+            ])
+            ->add('type', EntityType::class, [
+                'class' => \App\Entity\DepositType::class,
+                'label' => false,
+            ])
+            ->add('exchange', EntityType::class, [
+                'class' => Exchange::class,
+                'label' => false,
+            ])
+            ->add('fiatCurrency', EntityType::class, [
+                'class' => FiatCurrency::class,
+                'label' => false,
+                'choice_label' => 'symbol'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

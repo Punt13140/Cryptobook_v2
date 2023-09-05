@@ -37,6 +37,11 @@
                         class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition duration-300">
                     Register
                 </button>
+                <p class="text-center text-sm text-gray-500">
+                    Already have an account?
+                    <a href="{{ path('app_login') }}"
+                       class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log in.</a>
+                </p>
                 {{ form_end(registrationForm) }}
             {% endif %}
         </div>

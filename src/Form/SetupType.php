@@ -17,12 +17,12 @@ class SetupType extends AbstractType
         $builder
             ->add('wallets', LiveCollectionType::class, [
                 'entry_type' => WalletType::class,
+                'label' => false,
             ])
             ->add('deposits', LiveCollectionType::class, [
                 'entry_type' => DepositType::class,
             ])
-            ->add('favoriteFiatCurrency')
-            ->add('submit', SubmitType::class);
+            ->add('favoriteFiatCurrency');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

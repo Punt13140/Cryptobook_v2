@@ -2,10 +2,62 @@
 
 {% block title %}Setup{% endblock %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('stepper') }}
+{% endblock %}
+
 {% block body %}
-    <h1>Créez vos wallets</h1>
-    <p>Avant d'utiliser le cryptobook, vous devez ajouter les différents wallets que vous utilisez.</p>
-    {{ component('setup_form', {
-        user: user,
-    }) }}
+
+    <header class="p-8">
+        <div class="container mx-auto flex items-center justify-between">
+            <!-- Left column: Logo and website name -->
+            <div class="flex items-center">
+                <!-- Logo: Replace the image source with your own logo -->
+                <img class="w-10 h-10 mr-2" src="{{ asset('build/images/livre.png') }}"
+                     alt="Cryptobook logo">
+                <!-- Website name -->
+                <span class="text-white text-2xl">Cryptobook</span>
+            </div>
+
+            <!-- Right column: Stepper -->
+            <ol class="flex items-center text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-8 after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <div class="flex items-center gap-2">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-full text-xs div-header-step"
+                             data-step="1">
+                            <span class="text-gray-300">1</span>
+                        </div>
+                        <p class="p-header-step" data-step="1">Wallets</p>
+                    </div>
+                </li>
+                <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-8 after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <div class="flex items-center gap-2">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-full text-xs div-header-step"
+                             data-step="2">
+                            <span class="text-gray-300">2</span>
+                        </div>
+                        <p class="p-header-step" data-step="2">Investment</p>
+
+                    </div>
+                </li>
+                <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 after:hidden ">
+                    <div class="flex items-center gap-2">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-full text-xs div-header-step"
+                             data-step="3">
+                            <span class="text-gray-300">3</span>
+                        </div>
+                        <p class="p-header-step" data-step="3">Settings</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <div class="p-8">
+        <div class="container mx-auto">
+            <h1 class="mb-8">Préparation de votre compte</h1>
+            {{ component('setup_form', {
+                user: user,
+            }) }}
+        </div>
+    </div>
 {% endblock %}

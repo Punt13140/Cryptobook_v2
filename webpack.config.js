@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('stepper', './assets/stepper.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -64,6 +65,10 @@ Encore
 
     // uncomment if you use React
     //.enableReactPreset()
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+    })
     .enablePostCssLoader()
 
 // uncomment to get integrity="..." attributes on your script & link tags

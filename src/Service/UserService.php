@@ -22,6 +22,10 @@ class UserService
      */
     public function setupUserDefaultWallets(User $user): User
     {
+        if (in_array('ROLE_SETUP_OK', $user->getRoles())) {
+            return $user;
+        }
+
         $hardware = $this->typeWalletRepository->findOneBy(['id' => TypeWallet::$HARDWARE]);
         $software = $this->typeWalletRepository->findOneBy(['id' => TypeWallet::$SOFTWARE]);
         $exchange = $this->typeWalletRepository->findOneBy(['id' => TypeWallet::$EXCHANGE]);

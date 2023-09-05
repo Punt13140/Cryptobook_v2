@@ -1,0 +1,35 @@
+{% block _setup_wallets_entry_row %}
+    <div class="flex gap-2">
+        {{ form_row(form.type, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {{ form_row(form.libelle, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {{ form_row(form.information, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {%- if button_delete is defined and not button_delete.rendered -%}
+            {{ form_row(button_delete, {'attr': {'class': 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded'}}) }}
+        {%- endif -%}
+    </div>
+{% endblock %}
+
+{% block _setup_deposits_entry_row %}
+    <div class="flex gap-2">
+        <div class="inline-flex">
+            {{ form_row(form.amount, {'attr': {'placeholder': 'toto','class': 'dark:bg-gray-600 dark:text-white rounded-l'}}) }}
+            {{ form_row(form.fiatCurrency, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded-r'}}) }}
+        </div>
+        {{ form_row(form.depositedAt, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {{ form_row(form.type, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {{ form_row(form.exchange, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+        {%- if button_delete is defined and not button_delete.rendered -%}
+            {{ form_row(button_delete, {'attr': {'class': 'bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded'}}) }}
+        {%- endif -%}
+    </div>
+{% endblock %}
+
+{%- block live_collection_widget -%}
+    {%- if button_add is defined and not button_add.rendered -%}
+        {{ form_row(button_add, {
+            'label': '+ Add Item',
+            'attr': {'class': 'bg-blue-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mb-8'},
+        }) }}
+    {%- endif -%}
+    {{ block('form_widget') }}
+{%- endblock -%}
