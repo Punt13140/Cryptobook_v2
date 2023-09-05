@@ -25,3 +25,8 @@ services:
   App\Service\FiatRatesService:
     arguments:
       - '%env(FIXER_API_KEY)%'
+
+
+  coingecko.client:
+    class: Codenixsv\CoinGeckoApi\CoinGeckoClient
+  Codenixsv\CoinGeckoApi\CoinGeckoClient: '@coingecko.client'

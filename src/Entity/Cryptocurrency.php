@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CryptocurrencyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CryptocurrencyRepository::class)]
@@ -42,6 +44,18 @@ class Cryptocurrency
 
     #[ORM\Column]
     private ?bool $isStable = null;
+
+    #[ORM\OneToMany(mappedBy: 'coin', targetEntity: Loan::class)]
+    private Collection $loans;
+
+    #[ORM\OneToMany(mappedBy: 'coin', targetEntity: Blockchain::class)]
+    private Collection $blockchains;
+
+    public function __construct()
+    {
+        $this->loans = new ArrayCollection();
+        $this->blockchains = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -166,5 +180,70 @@ class Cryptocurrency
         $this->isStable = $isStable;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): static
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setCoin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): static
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getCoin() === $this) {
+                $loan->setCoin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Blockchain>
+     */
+    public function getBlockchains(): Collection
+    {
+        return $this->blockchains;
+    }
+
+    public function addBlockchain(Blockchain $blockchain): static
+    {
+        if (!$this->blockchains->contains($blockchain)) {
+            $this->blockchains->add($blockchain);
+            $blockchain->setCoin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlockchain(Blockchain $blockchain): static
+    {
+        if ($this->blockchains->removeElement($blockchain)) {
+            // set the owning side to null (unless already changed)
+            if ($blockchain->getCoin() === $this) {
+                $blockchain->setCoin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->libelle;
     }
 }

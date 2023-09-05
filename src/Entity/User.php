@@ -48,12 +48,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Deposit::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $deposits;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Loan::class, orphanRemoval: true)]
+    private Collection $loans;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->wallets = new ArrayCollection();
         $this->stateWallets = new ArrayCollection();
         $this->deposits = new ArrayCollection();
+        $this->loans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +235,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($deposit->getOwner() === $this) {
                 $deposit->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): static
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): static
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getOwner() === $this) {
+                $loan->setOwner(null);
             }
         }
 

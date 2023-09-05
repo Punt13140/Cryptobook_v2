@@ -2,6 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Blockchain;
+use App\Entity\Cryptocurrency;
+use App\Entity\Dapp;
 use App\Entity\TypeWallet;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -46,6 +49,9 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linktoCrud('Cryptocurrencies', 'fab fa-bitcoin', Cryptocurrency::class);
+        yield MenuItem::linktoCrud('Blockchain', 'fa fa-link', Blockchain::class);
+        yield MenuItem::linktoCrud('Dapps', 'fa fa-cloud', Dapp::class);
         yield MenuItem::linkToCrud('Type de wallet', 'fas fa-list', TypeWallet::class);
     }
 }
