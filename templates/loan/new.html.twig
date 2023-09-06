@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Loan{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-8">
+        <h1>Create new Loan</h1>
+
+        {{ include('loan/_form.html.twig') }}
+
+        <a href="{{ path('app_loan_index') }}">back to list</a>
+    </div>
+{% endblock %}

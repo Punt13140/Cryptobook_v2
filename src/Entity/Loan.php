@@ -2,20 +2,19 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\DescriptionTrait;
 use App\Repository\LoanRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LoanRepository::class)]
-class Loan
+class Loan extends OwnedByUser
 {
+    use DescriptionTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'loans')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
 
     #[ORM\ManyToOne(inversedBy: 'loans')]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,24 +27,14 @@ class Loan
     #[ORM\JoinColumn(nullable: false)]
     private ?Dapp $dapp = null;
 
+    private ?Blockchain $blockchain = null;
+
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $loanedAt = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): static
-    {
-        $this->owner = $owner;
-
-        return $this;
     }
 
     public function getCoin(): ?Cryptocurrency
@@ -92,6 +81,21 @@ class Loan
     public function setLoanedAt(?\DateTimeImmutable $loanedAt): static
     {
         $this->loanedAt = $loanedAt;
+
+        return $this;
+    }
+
+    public function getBlockchain(): ?Blockchain
+    {
+        if ($this->blockchain === null && $this->dapp !== null && $this->dapp->getBlockchain() !== $this->blockchain) {
+            $this->blockchain = $this->dapp->getBlockchain();
+        }
+        return $this->blockchain;
+    }
+
+    public function setBlockchain(?Blockchain $blockchain): self
+    {
+        $this->blockchain = $blockchain;
 
         return $this;
     }

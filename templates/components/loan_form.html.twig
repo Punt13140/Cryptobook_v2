@@ -1,0 +1,38 @@
+<div {{ attributes }}>
+
+    {{ form_start(form) }}
+    <div class="m-2">
+        {{ form_label(form.nbCoins, 'Nombre', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.nbCoins, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <div class="m-2">
+        {{ form_label(form.loanedAt, 'Date', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.loanedAt, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <div class="m-2">
+        {{ form_label(form.coin, 'Crypto', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.coin, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <div class="m-2">
+        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <div class="m-2">
+        {{ form_label(form.blockchain, 'Blockchain', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.blockchain, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <div class="m-2">
+        {{ form_label(form.dapp, 'Dapp', {'label_attr': {'class': 'dark:text-white'}}) }}
+        {{ form_widget(form.dapp, {'attr': {'class': 'dark:bg-gray-600 dark:text-white rounded'}}) }}
+    </div>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+</div>
