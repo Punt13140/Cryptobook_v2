@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Loan;
-use App\Entity\User;
 use App\Form\LoanType;
 use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,14 +18,14 @@ class LoanController extends AbstractController
     public function index(LoanRepository $loanRepository): Response
     {
         $loans = $loanRepository->findBy([
-            'owner' => $this->getUser()
+            'owner' => $this->getUser(),
         ]);
 
         $total = $loanRepository->getTotal($this->getUser());
 
         return $this->render('loan/index.html.twig', [
             'loans' => $loans,
-            'total' => $total
+            'total' => $total,
         ]);
     }
 
@@ -79,7 +78,7 @@ class LoanController extends AbstractController
     #[Route('/{id}', name: 'app_loan_delete', methods: ['POST'])]
     public function delete(Request $request, Loan $loan, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $loan->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$loan->getId(), $request->request->get('_token'))) {
             $entityManager->remove($loan);
             $entityManager->flush();
         }

@@ -11,14 +11,11 @@ class UserService
 {
     public function __construct(
         private readonly TypeWalletRepository $typeWalletRepository,
-    )
-    {
+    ) {
     }
 
     /**
      * Default wallets for a new user, during setup phase.
-     * @param User $user
-     * @return User
      */
     public function setupUserDefaultWallets(User $user): User
     {

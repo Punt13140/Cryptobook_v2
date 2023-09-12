@@ -8,7 +8,6 @@ use App\Entity\Dapp;
 use App\Entity\Loan;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,10 +22,9 @@ class LoanType extends AbstractType
     private FormFactoryInterface $factory;
 
     /**
-     * @var array<string, mixed> $dependencies
+     * @var array<string, mixed>
      */
     private array $dependencies = [];
-
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -46,9 +44,8 @@ class LoanType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'empty_data' => ''
+                'empty_data' => '',
             ])
-//            ->add('dapp')
             ->add('blockchain', EntityType::class, [
                 'required' => false,
                 'class' => Blockchain::class,
@@ -57,7 +54,7 @@ class LoanType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
-//
+
         $builder->get('blockchain')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'storeDependencies']);
         $builder->get('blockchain')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmitBlockchain']);
     }
@@ -95,8 +92,7 @@ class LoanType extends AbstractType
         );
     }
 
-
-    public function addDappField(FormInterface $form, ?Blockchain $blockchain, ?Dapp $dapp = null): void
+    public function addDappField(FormInterface $form, ?Blockchain $blockchain, Dapp $dapp = null): void
     {
         $dappForm = $this->factory->createNamedBuilder('dapp', EntityType::class, $dapp, [
             'class' => Dapp::class,
@@ -106,8 +102,8 @@ class LoanType extends AbstractType
             'invalid_message' => false,
             'auto_initialize' => false,
         ]);
-//            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'storeDependencies'])
-//            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmitFood']);
+        //            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'storeDependencies'])
+        //            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmitFood']);
 
         $form->add($dappForm->getForm());
     }

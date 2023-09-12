@@ -30,7 +30,7 @@ class Wallet
     private ?User $owner = null;
 
     /**
-     * Contient l'état du wallet, c'est à dire les cryptomonnaies qu'il contient et leur quantité
+     * Contient l'état du wallet, c'est à dire les cryptomonnaies qu'il contient et leur quantité.
      */
     #[ORM\OneToMany(mappedBy: 'wallet', targetEntity: CoupleCryptocurrencyNbcoins::class)]
     private Collection $state;

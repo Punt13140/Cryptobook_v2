@@ -30,7 +30,7 @@ class UserController extends AbstractController
                 $entityManager->flush();
 
                 // We have to re-authenticate the user after updating the roles, otherwise the user will be logged out.
-                $token = new UsernamePasswordToken($user, "main", $user->getRoles());
+                $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
                 $tokenStorage->setToken($token);
 
                 return $this->redirectToRoute('app_welcome', [], Response::HTTP_SEE_OTHER);

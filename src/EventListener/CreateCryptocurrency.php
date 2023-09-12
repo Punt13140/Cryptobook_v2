@@ -13,19 +13,17 @@ class CreateCryptocurrency
 {
     public function __construct(
         private readonly CryptocurrencyService $cryptocurrencyService,
-    )
-    {
+    ) {
     }
 
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof Cryptocurrency || $entity->getLibelle() !== null) {
+        if (!$entity instanceof Cryptocurrency || null !== $entity->getLibelle()) {
             return;
         }
 
         $this->cryptocurrencyService->updateDatas($entity);
     }
-
 }

@@ -6,7 +6,6 @@ use App\Entity\OwnedByUser;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use LogicException;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsDoctrineListener(event: Events::prePersist, priority: 500, connection: 'default')]
@@ -14,24 +13,21 @@ class HandleOwner
 {
     public function __construct(
         private readonly Security $security,
-    )
-    {
+    ) {
     }
 
     /**
-     * @param PrePersistEventArgs $args
-     * @return void
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function prePersist(PrePersistEventArgs $args): void
     {
-        if ($this->security->getUser() === null) {
-            throw new LogicException('User must be logged in');
+        if (null === $this->security->getUser()) {
+            throw new \LogicException('User must be logged in');
         }
 
         $entity = $args->getObject();
 
-        if (!$entity instanceof OwnedByUser || $entity->getOwner() !== null) {
+        if (!$entity instanceof OwnedByUser || null !== $entity->getOwner()) {
             return;
         }
 

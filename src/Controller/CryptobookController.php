@@ -28,6 +28,7 @@ class CryptobookController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('app_dashboard');
         }
+
         return $this->render('cryptobook/presentation.html.twig');
     }
 }

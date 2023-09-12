@@ -37,7 +37,7 @@ class DepositType extends AbstractType
             ->add('fiatCurrency', EntityType::class, [
                 'class' => FiatCurrency::class,
                 'label' => false,
-                'choice_label' => 'symbol'
+                'choice_label' => 'symbol',
             ]);
     }
 

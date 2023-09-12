@@ -49,7 +49,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // if the user has the role ROLE_SETUP_OK, redirect to the dashboard, otherwise redirect to the setup page
-        if(!in_array('ROLE_SETUP_OK', $token->getUser()->getRoles())) {
+        if (!in_array('ROLE_SETUP_OK', $token->getUser()->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('app_user_setup'));
         }
 

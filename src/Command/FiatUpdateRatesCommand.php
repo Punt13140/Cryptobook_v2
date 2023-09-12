@@ -17,8 +17,7 @@ class FiatUpdateRatesCommand extends Command
 {
     public function __construct(
         private readonly FiatRatesService $fiatRatesService
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -27,6 +26,7 @@ class FiatUpdateRatesCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $this->fiatRatesService->updateFiatRates();
         $io->success('Execution de fiat:updateRates terminé.');
+
         return Command::SUCCESS;
     }
 }

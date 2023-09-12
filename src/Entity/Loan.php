@@ -87,9 +87,10 @@ class Loan extends OwnedByUser
 
     public function getBlockchain(): ?Blockchain
     {
-        if ($this->blockchain === null && $this->dapp !== null && $this->dapp->getBlockchain() !== $this->blockchain) {
+        if (null === $this->blockchain && null !== $this->dapp && $this->dapp->getBlockchain() !== $this->blockchain) {
             $this->blockchain = $this->dapp->getBlockchain();
         }
+
         return $this->blockchain;
     }
 

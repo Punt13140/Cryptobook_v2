@@ -13,7 +13,6 @@ class DepositType
     public static int $CB = 1;
     public static int $VIREMENT = 2;
 
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
